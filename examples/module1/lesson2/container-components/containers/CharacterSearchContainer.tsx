@@ -5,7 +5,7 @@ import SearchForm from '../components/SearchForm';
 import SearchTitle from '../components/SearchTitle';
 import CharacterSearch from '../components/CharacterSearch';
 
-function CharacterSearchContainer() {
+function CharacterSearchContainer({title}) {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const { sortedCharacters, sortOption, setSortOption } = CharacterSearch(name, gender);
@@ -14,7 +14,7 @@ function CharacterSearchContainer() {
   return (
     <>
       <div className="pt-20" />
-      <SearchTitle />
+      <SearchTitle title={title} />
       <div className="pt-8" />
       <SearchForm
         name={name}
