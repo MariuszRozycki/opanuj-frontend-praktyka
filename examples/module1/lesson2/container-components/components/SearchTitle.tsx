@@ -1,11 +1,7 @@
 import React from "react";
 
-type SearchTitleProps = {
-  title: string;
-};
-
-function SearchTitle({title}: SearchTitleProps) {
-  return <h1 className="text-2xl">{title}</h1>;
+function SearchTitle({name = "Rick and Morty"} : {name?: string}) {
+  return <h1 className="text-2xl">Wyszukiwarka postaci {name}</h1>;
 }
 
 export default SearchTitle;
