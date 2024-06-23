@@ -5,7 +5,7 @@ import CharacterSearchContainer from "./containers/CharacterSearchContainer";
 function App() {
   return (
     <div>
-      <CharacterSearchContainer />
+      <CharacterSearchContainer title="Wyszukiwarka postaci Pokemon" />
     </div>
   );
 }
