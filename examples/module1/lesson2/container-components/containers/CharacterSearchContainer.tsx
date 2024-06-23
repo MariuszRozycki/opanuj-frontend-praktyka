@@ -5,7 +5,11 @@ import SearchForm from '../components/SearchForm';
 import SearchTitle from '../components/SearchTitle';
 import CharacterSearch from '../components/CharacterSearch';
 
-function CharacterSearchContainer({title}) {
+type CharacterSearchContainerProps = {
+  title: string;
+}
+
+function CharacterSearchContainer({title}: CharacterSearchContainerProps) {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const { sortedCharacters, sortOption, setSortOption } = CharacterSearch(name, gender);
