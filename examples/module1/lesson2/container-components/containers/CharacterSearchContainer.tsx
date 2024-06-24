@@ -4,12 +4,11 @@ import CharacterList from '../components/CharacterList';
 import SearchForm from '../components/SearchForm';
 import SearchTitle from '../components/SearchTitle';
 import CharacterSearch from '../components/CharacterSearch';
+import NameField from '../components/NameField';
+import GenderField from '../components/GenderField';
+import SortField from '../components/SortField';
 
-type CharacterSearchContainerProps = {
-  title: string;
-}
-
-function CharacterSearchContainer({title}: CharacterSearchContainerProps) {
+function CharacterSearchContainer() {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const { sortedCharacters, sortOption, setSortOption } = CharacterSearch(name, gender);
@@ -18,16 +17,13 @@ function CharacterSearchContainer({title}: CharacterSearchContainerProps) {
   return (
     <>
       <div className="pt-20" />
-      <SearchTitle title={title} />
+      <SearchTitle />
       <div className="pt-8" />
-      <SearchForm
-        name={name}
-        setName={setName}
-        gender={gender}
-        setGender={setGender}
-        sortOption={sortOption}
-        setSortOption={setSortOption}
-      />
+      <SearchForm>
+        <NameField name={name} setName={setName} />
+        <GenderField gender={gender} setGender={setGender}/>
+        <SortField sortOption={sortOption} setSortOption={setSortOption} />
+      </SearchForm>
       <div className="pt-12" />
       <CharacterList characters={sortedCharacters} />
       <div className="pt-16" />
