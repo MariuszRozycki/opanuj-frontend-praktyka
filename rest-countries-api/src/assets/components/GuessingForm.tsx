@@ -34,6 +34,6 @@ function GuessingForm({ country, fetchRandomCountry }: GuessingFormProps) {
       <p>{message}</p>
     </div>
   );
-};
+}
 
 export default GuessingForm;
