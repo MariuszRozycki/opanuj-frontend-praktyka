@@ -1,3 +1,4 @@
+import React from 'react';
 import GenderSelect from './GenderSelect';
 import { NameField } from './NameField';
 import SortSelect from './SortSelect';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Character } from '../types/Character';
 
 export function CharacterCard({ character }: { character: Character }) {
