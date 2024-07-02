@@ -12,7 +12,7 @@ export function useCharacterSearch(name: string, gender: string) {
         .then((response) => response.json())
         .then((data) => setCharacters(data.results || []))
         .catch((error) => console.error('Error fetching data:', error));
-    }
+    } 
   }, [name, gender]);
 
   return characters;
