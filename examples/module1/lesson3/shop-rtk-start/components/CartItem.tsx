@@ -6,9 +6,12 @@ import { IoMdAdd, IoMdClose, IoMdRemove } from 'react-icons/io';
 
 import { CartContext } from '../contexts/CartContext';
 import { CartItem as CartItemType } from '../types/CartItem';
+import { useAppDispatch } from '../hooks/rtk';
+import { addToCart } from '../state/cartSlice';
 
 const CartItem = ({ item }: { item: CartItemType }) => {
-  const { removeFromCart, addToCart, decreaseAmount } = useContext(CartContext);
+  const dispatch = useAppDispatch();
+  const { removeFromCart, decreaseAmount } = useContext(CartContext);
   const { id, title, image, price, amount } = item;
 
   return (
@@ -44,7 +47,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
                 {amount}
               </div>
               <div
-                onClick={() => addToCart(item)}
+                onClick={() => dispatch(addToCart(item))}
                 className="h-full flex flex-1 justify-center items-center cursor-pointer"
               >
                 <IoMdAdd />
