@@ -1,17 +1,14 @@
 import React from 'react';
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { IoMdAdd, IoMdClose, IoMdRemove } from 'react-icons/io';
 
-import { CartContext } from '../contexts/CartContext';
 import { CartItem as CartItemType } from '../types/CartItem';
 import { useAppDispatch } from '../hooks/rtk';
-import { addToCart } from '../state/cartSlice';
+import { addToCart, decreaseAmount, removeFromCart } from '../state/cartSlice';
 
 const CartItem = ({ item }: { item: CartItemType }) => {
   const dispatch = useAppDispatch();
-  const { removeFromCart, decreaseAmount } = useContext(CartContext);
   const { id, title, image, price, amount } = item;
 
   return (
@@ -29,7 +26,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
               {title}
             </Link>
             <div
-              onClick={() => removeFromCart(id)}
+              onClick={() => dispatch(removeFromCart(item))}
               className="text-xl cursor-pointer"
             >
               <IoMdClose className="text-gray-500 hover:text-red-500 transition" />
@@ -38,7 +35,7 @@ const CartItem = ({ item }: { item: CartItemType }) => {
           <div className="flex gap-x-2 h-[36px] text-sm">
             <div className="flex flex-1 max-w-[100px] items-center h-full border text-primary font-medium">
               <div
-                onClick={() => decreaseAmount(id)}
+                onClick={() => dispatch(decreaseAmount(item))}
                 className="h-full flex-1 flex justify-center items-center cursor-pointer"
               >
                 <IoMdRemove />
