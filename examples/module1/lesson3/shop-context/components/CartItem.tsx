@@ -7,7 +7,6 @@ import { CartItem as CartItemType } from '../types/CartItem';
 import { CartContext } from '../contexts/CartContext';
 
 const CartItem = ({ item }: { item: CartItemType }) => {
-  const { removeFromCart, addToCart, decreaseAmount } = useContext(CartContext);
   const { id, title, image, price, amount } = item;
 
   return (
@@ -24,30 +23,16 @@ const CartItem = ({ item }: { item: CartItemType }) => {
             >
               {title}
             </Link>
-            <div
-              onClick={() => removeFromCart(id)}
-              className="text-xl cursor-pointer"
-            >
-              <IoMdClose className="text-gray-500 hover:text-red-500 transition" />
-            </div>
+            <RemoveFromCartBtn item={item} />
           </div>
           <div className="flex gap-x-2 h-[36px] text-sm">
             <div className="flex flex-1 max-w-[100px] items-center h-full border text-primary font-medium">
-              <div
-                onClick={() => decreaseAmount(id)}
-                className="h-full flex-1 flex justify-center items-center cursor-pointer"
-              >
-                <IoMdRemove />
-              </div>
+              <DecreaseAmountCartBtn item={item} />
               <div className="h-full flex justify-center items-center px-2">
                 {amount}
               </div>
-              <div
-                onClick={() => addToCart(item)}
-                className="h-full flex flex-1 justify-center items-center cursor-pointer"
-              >
-                <IoMdAdd />
-              </div>
+              {/* Here goes AddToCartBtn */}
+              <AddToCartBtn item={item} />
             </div>
             <div className="flex flex-1 justify-around items-center">
               $ {price}
@@ -58,6 +43,44 @@ const CartItem = ({ item }: { item: CartItemType }) => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const RemoveFromCartBtn = ({ item }: { item: CartItemType }) => {
+  const { removeFromCart } = useContext(CartContext);
+  const { id } = item;
+
+  return (
+    <div onClick={() => removeFromCart(id)} className="text-xl cursor-pointer">
+      <IoMdClose className="text-gray-500 hover:text-red-500 transition" />
+    </div>
+  );
+};
+
+const DecreaseAmountCartBtn = ({ item }: { item: CartItemType }) => {
+  const { decreaseAmount } = useContext(CartContext);
+  const { id } = item;
+
+  return (
+    <div
+      onClick={() => decreaseAmount(id)}
+      className="h-full flex-1 flex justify-center items-center cursor-pointer"
+    >
+      <IoMdRemove />
+    </div>
+  );
+};
+
+const AddToCartBtn = ({ item }: { item: CartItemType }) => {
+  const { addToCart } = useContext(CartContext);
+
+  return (
+    <div
+      onClick={() => addToCart(item)}
+      className="h-full flex flex-1 justify-center items-center cursor-pointer"
+    >
+      <IoMdAdd />
     </div>
   );
 };
