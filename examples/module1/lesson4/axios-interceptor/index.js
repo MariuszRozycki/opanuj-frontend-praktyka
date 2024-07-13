@@ -2,7 +2,6 @@ import axios from 'axios';
 
 function addStartTime(config) {
   config.metadata = { startTime: new Date() };
-  console.log('Request config:', config);
   return config;
 }
 
@@ -10,7 +9,6 @@ function logRequestDuration(config) {
   const startTime = config.metadata.startTime;
   const endTime = new Date();
   const duration = endTime - startTime;
-  console.log(`Request to ${config.url} took ${duration} ms`);
 }
 
 // Add a request interceptor
