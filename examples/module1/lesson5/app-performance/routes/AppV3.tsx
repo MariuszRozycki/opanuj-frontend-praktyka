@@ -1,3 +1,4 @@
+import React from 'react';
 // @ts-ignore-next-line
 import bookshelf from '../media/image-v2.png';
 import { useEffect, useReducer, useState } from 'react';
@@ -47,6 +48,8 @@ function Comments() {
     axios
       .get<{ comments: Comment[] }>(commentsAPI)
       .then(({ data: { comments } }) => {
+        console.log(comments);
+
         dispatch({
           type: 'SET_COMMENTS',
           payload: comments,
