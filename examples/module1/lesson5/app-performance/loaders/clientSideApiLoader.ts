@@ -6,5 +6,7 @@ export async function clientSideApiLoader(): Promise<Bootstrap> {
     'http://localhost:3000/api/data/bootstrap?timeout=3000'
   );
 
+  console.log('data: ', data);
+
   return data;
 }

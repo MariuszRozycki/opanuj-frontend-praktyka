@@ -143,6 +143,7 @@ function CommentsForm({
 function Authors() {
   const { authorsAPI } = useLoaderData() as Bootstrap;
   const { isPending, data } = useAuthorsQuery(authorsAPI);
+  console.log('authorsAPI: ', authorsAPI);
 
   return (
     <>
