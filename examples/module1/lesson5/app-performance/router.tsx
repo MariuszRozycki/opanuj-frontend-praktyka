@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import App from './App'; // Główny komponent aplikacji
-import { dataLoader } from './loaders/dataLoader'; // Loader do pobierania danych
+import App from './App';
+import { dataLoader } from './loaders/dataLoader';
 
 export const router = createBrowserRouter([
   {
