@@ -13,7 +13,7 @@ import {
 const queryClient = new QueryClient();
 
 function useCommentsQuery(commentsAPI: string) {
-  return useQuery({
+  return useQuery<Comment[], Error>({
     queryKey: ['comments'],
     queryFn: async () => {
       const response = await axios.get<{ comments: Comment[] }>(commentsAPI);
@@ -34,7 +34,6 @@ function useAuthorsQuery(authorsAPI: string) {
 
 function Comments() {
   const { commentsAPI } = useLoaderData() as Bootstrap;
-
   const { data, error, isLoading } = useCommentsQuery(commentsAPI);
 
   if (isLoading) {
@@ -59,6 +58,94 @@ function Comments() {
             <p className="font-semibold">Author: {comment.author}</p>
           </div>
         ))}
+    </div>
+  );
+}
+
+function AddComments() {
+  const { commentsAPI } = useLoaderData() as Bootstrap;
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get<{ comments: Comment[] }>(commentsAPI);
+        setComments(response.data.comments);
+        console.log('comments: ', response.data.comments);
+      } catch (error) {
+        setError('Error fetching comments.');
+        console.error('Error fetching comments:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComments();
+  }, [commentsAPI]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setComments([
+      ...comments,
+      {
+        id: comments.length + 1,
+        text: newComment,
+        author: 'John Doe',
+      },
+    ]);
+    setNewComment('');
+    setError(null);
+
+    try {
+      const response = await axios.post<Comment>(commentsAPI, {
+        comment: newComment,
+      });
+
+      console.log('Successfully added comment:', response.data);
+    } catch (error) {
+      setError('Error submitting comment.');
+      console.error('Error submitting comment:', error);
+    }
+  };
+
+  return (
+    <div className="mb-5">
+      <h2 className="font-bold text-xl my-2">New comments</h2>
+
+      {loading && <p>Loading comments...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
+      <ul>
+        {comments.map((comment) => (
+          <li key={comment.id}>
+            {comment.author}: {comment.text}
+          </li>
+        ))}
+      </ul>
+      <form onSubmit={handleSubmit}>
+        <input
+          className="rounded border-solid border-2 border-indigo-600"
+          type="text"
+          value={newComment}
+          onChange={handleChange}
+        />
+        <button
+          type="submit"
+          className="ml-2 p-2 bg-blue-500 text-white rounded"
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 }
@@ -103,6 +190,7 @@ function App() {
             <p>-----------------------------------------------------</p>
           </div>
           <div>
+            <AddComments />
             <Comments />
             <Authors />
           </div>
