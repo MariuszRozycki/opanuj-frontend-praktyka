@@ -31,4 +31,22 @@ describe('Form validation', () => {
     const errors = formValidator('Marian', '  ', 30);
     expect(errors).toContain('Last name is required');
   });
+
+  test('should throw an error if age is not a number', () => {
+    expect(() => formValidator('John', 'Doe', NaN)).toThrow(
+      'Age must be a number'
+    );
+    expect(() => formValidator('John', 'Doe', 'thirty' as any)).toThrow(
+      'Age must be a number'
+    );
+    expect(() => formValidator('John', 'Doe', undefined as any)).toThrow(
+      'Age must be a number'
+    );
+    expect(() => formValidator('John', 'Doe', true as any)).toThrow(
+      'Age must be a number'
+    );
+    expect(() => formValidator('John', 'Doe', false as any)).toThrow(
+      'Age must be a number'
+    );
+  });
 });
