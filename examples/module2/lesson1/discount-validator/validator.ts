@@ -5,11 +5,14 @@ export function formValidator(
 ) {
   const errors: string[] = [];
 
-  if (!firstName) {
+  // trim() is used to remove leading and trailing white spaces.
+  // This ensures that firstName and lastName must contain at least one non-white-space character.
+
+  if (!firstName.trim()) {
     errors.push('First name is required');
   }
 
-  if (!lastName) {
+  if (!lastName.trim()) {
     errors.push('Last name is required');
   }
 

@@ -21,4 +21,14 @@ describe('Form validation', () => {
     const errors = formValidator('John', 'Doe', 30);
     expect(errors).toHaveLength(0);
   });
+
+  test('should return an error if first name is empty or contains only white spaces', () => {
+    const errors = formValidator('   ', 'Doe', 30);
+    expect(errors).toContain('First name is required');
+  });
+
+  test('should return an error if last name is empty or contains only white spaces', () => {
+    const errors = formValidator('Marian', '  ', 30);
+    expect(errors).toContain('Last name is required');
+  });
 });
