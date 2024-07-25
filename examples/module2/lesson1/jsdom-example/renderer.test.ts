@@ -9,20 +9,41 @@ const users: User[] = [
   { id: 3, name: 'Jack', age: 40, role: 'user' },
 ];
 
-describe('User renderer', () => {
-  test('should render all users if admin is rendering the list', () => {
+describe('when admin is rendering the list', () => {
+  test('should render all users', () => {
     localStorage.setItem('userRole', 'admin');
-
     const container = document.createElement('div');
     renderItems(container, users);
-    expect(Array.from(container.querySelectorAll('li'))).toHaveLength(3);
+    const listItems = Array.from(container.querySelectorAll('li'));
+    expect(listItems).toHaveLength(3);
   });
 
-  test('should render only regular users if non-admin is rendering the list', () => {
-    localStorage.setItem('userRole', 'user');
-
+  test('should render correct user data', () => {
+    localStorage.setItem('userRole', 'admin');
     const container = document.createElement('div');
     renderItems(container, users);
-    expect(Array.from(container.querySelectorAll('li'))).toHaveLength(2);
+    const listItems = Array.from(container.querySelectorAll('li'));
+    expect(listItems[0].textContent).toBe('(User) Name: John, Age: 30');
+    expect(listItems[1].textContent).toBe('(Admin) Name: Jane, Age: 25');
+    expect(listItems[2].textContent).toBe('(User) Name: Jack, Age: 40');
+  });
+});
+
+describe('when non-admin is rendering the list', () => {
+  test('should render only regular users', () => {
+    localStorage.setItem('userRole', 'user');
+    const container = document.createElement('div');
+    renderItems(container, users);
+    const listItems = container.querySelectorAll('li');
+    expect(listItems).toHaveLength(2);
+  });
+
+  test('should render correct user data for regular users', () => {
+    localStorage.setItem('userRole', 'user');
+    const container = document.createElement('div');
+    renderItems(container, users);
+    const listItems = Array.from(container.querySelectorAll('li'));
+    expect(listItems[0].textContent).toBe('(User) Name: John, Age: 30');
+    expect(listItems[1].textContent).toBe('(User) Name: Jack, Age: 40');
   });
 });
