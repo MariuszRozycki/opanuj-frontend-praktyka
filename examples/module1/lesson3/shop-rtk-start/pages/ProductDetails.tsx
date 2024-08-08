@@ -1,21 +1,39 @@
-import { useContext } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { CartContext } from '../contexts/CartContext';
-import { ProductContext } from '../contexts/ProductContext';
+import { useAppDispatch } from '../hooks/rtk';
+import { addToCart } from '../state/cartSlice';
+import { useGetProductByIdQuery } from '../services/Product';
 
 const ProductDetails = () => {
-  const { id } = useParams();
-  const { addToCart } = useContext(CartContext);
-  const { products } = useContext(ProductContext);
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
 
-  const product = products.find((item) => {
-    return item.id === parseInt(id!);
-  });
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useGetProductByIdQuery(parseInt(id!));
+
+  if (isLoading) {
+    return (
+      <section className="h-screen flex justify-center items-center">
+        Loading...
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="h-screen flex justify-center items-center">
+        Error loading product.
+      </section>
+    );
+  }
 
   if (!product) {
     return (
       <section className="h-screen flex justify-center items-center">
-        Loading...
+        Product not found.
       </section>
     );
   }
@@ -26,7 +44,11 @@ const ProductDetails = () => {
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row items-center">
           <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
-            <img className="max-w-[200px] lg:max-w-xs" src={image} alt="" />
+            <img
+              className="max-w-[200px] lg:max-w-xs"
+              src={image}
+              alt={title}
+            />
           </div>
           <div className="flex-1 text-center lg:text-left">
             <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">
@@ -37,7 +59,7 @@ const ProductDetails = () => {
             </div>
             <p className="mb-8">{description}</p>
             <button
-              onClick={() => addToCart(product)}
+              onClick={() => dispatch(addToCart(product))}
               className="bg-green-600 py-4 px-8 text-white"
             >
               Add to cart
